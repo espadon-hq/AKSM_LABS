@@ -1,0 +1,19 @@
+worker_processes {{ nginx_worker_processes }};
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    server {
+        listen {{ nginx_port }};
+        server_name {{ nginx_server_name }};
+
+        root {{ nginx_root_dir }};
+        index index.html index.htm;
+
+        location / {
+            try_files $uri $uri/ =404;
+        }
+    }
+}
