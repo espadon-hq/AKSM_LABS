@@ -1,0 +1,33 @@
+---
+# tasks file for conf_apache2
+- name: Ensure httpd is installed
+  dnf:
+    name: httpd
+    state: present
+  become: yes
+
+- name: Create www directory
+  file:
+    path: /srv/www
+    state: directory
+  become: yes
+
+- name: Configure Apache
+  copy:
+    dest: /etc/httpd/conf.d/default.conf
+    src: files/default.conf
+  become: yes
+  notify: restart httpd
+
+- name: Create index.html
+  copy:
+    dest: /srv/www/index.html
+    src: files/index.html
+  become: yes
+
+- name: Download an image of a logo
+  get_url:
+    dest: /srv/www/SoftServe.svg
+    url: https://upload.wikimedia.org/wikipedia/commons/e/e3/SoftServe.svg
+  become: yes
+  notify: restart httpd

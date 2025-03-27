@@ -1,0 +1,8 @@
+---
+- name: Deploy Apache2 using Ansible Galaxy
+  hosts: localhost
+  vars:
+    ansible_connection: local
+  become: yes
+  roles:
+    - conf_apache2
